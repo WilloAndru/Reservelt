@@ -1,0 +1,79 @@
+##############################################
+# ANGULAR / CLIENT
+##############################################
+
+# Node modules
+client/node_modules/
+
+# Build output
+client/dist/
+client/out-tsc/
+
+# Angular cache
+client/.angular/
+
+# IDEs
+client/.vscode/
+client/.idea/
+
+# Environment files (si usas variables sensibles)
+client/src/environments/*.local.ts
+
+
+##############################################
+# .NET / SERVER
+##############################################
+
+# Compiled binaries
+server/bin/
+server/obj/
+
+# User-specific files
+server/*.user
+server/*.suo
+
+# Logs
+server/*.log
+
+# Publish directory
+server/publish/
+server/wwwroot/
+
+# Visual Studio / VSCode config
+server/.vs/
+server/.vscode/
+
+# NuGet packages
+server/packages/
+*.nupkg
+*.snupkg
+
+# Database / local cache
+server/*.db
+server/*.sqlite
+server/*.mdf
+server/*.ldf
+
+# Launch settings (a veces se ignora; opcional)
+server/Properties/launchSettings.json
+
+
+##############################################
+# ROOT CONFIG (repo global)
+##############################################
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups
+*.bak
+*.tmp
+
+# Global IDE folders
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.*

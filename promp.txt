@@ -1,0 +1,12 @@
+Estoy creando un sistema de reservas para un restaurante con el stack angular, net core y sql server.
+Soy nuevo usando este stack, en este proyecto la idea es crear este sistema con las siguientes paginas como referencia
+/home
+/login
+/register
+/reservation
+/my-reservations
+/profile
+/admin
+/admin/tables
+/**
+Responde a los porcesos siempre teniendo en cuanto como lo haria un profesional con buenas practicas

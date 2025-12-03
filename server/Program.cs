@@ -1,52 +1,44 @@
+using Microsoft.EntityFrameworkCore;
+
+// Crea el builder de la aplicación
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
-
+// Política de CORS para conectar con Angular
 var MyCorsPolicy = "AllowAngular";
 
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyCorsPolicy, policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        var corsOrigin = builder.Configuration["AllowedCorsOrigins"]!;
+        policy.WithOrigins(corsOrigin) // Permite frontend Angular
+              .AllowAnyHeader()       // Permite cualquier cabecera
+              .AllowAnyMethod();      // Permite cualquier método HTTP
     });
 });
 
+// Configura conexión a SQL Server con EF Core
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Habilita documentación OpenAPI/Swagger
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
 
+// Aplica política de CORS
 app.UseCors(MyCorsPolicy);
 
+// Habilita OpenAPI solo en desarrollo
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
+// Redirige HTTP a HTTPS
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
+// Ejecuta la aplicación
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+

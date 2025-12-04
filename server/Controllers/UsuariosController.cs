@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 [Route("api/[controller]")]
 public class UsuariosController : ControllerBase
 {
+    // Importamos la estructura de la base de datos
     private readonly AppDbContext _context;
-
     public UsuariosController(AppDbContext context)
     {
         _context = context;
@@ -47,18 +48,19 @@ public class UsuariosController : ControllerBase
         _context.Usuarios.Add(nuevoUsuario);
         await _context.SaveChangesAsync();
 
+        // Usamos la funcion CreatedAtAction para tener un REST apropiado
         return CreatedAtAction(
-            nameof(ObtenerUsuarioPorId),
-            new { id = nuevoUsuario.Id },
+            nameof(ObtenerUsuarioPorFirebaseUid),
+            new { id = nuevoUsuario.FirebaseUid },
             nuevoUsuario
         );
     }
 
-    // Endpoint auxiliar para CreatedAtAction
-    [HttpGet("{id}")]
-    public async Task<IActionResult> ObtenerUsuarioPorId(int id)
+    // Endpoint para obtener datos del usuario, ademas sirve para el REST de CrearUsuario
+    [HttpGet("{uid}")]
+    public async Task<IActionResult> ObtenerUsuarioPorFirebaseUid(string uid)
     {
-        var usuario = await _context.Usuarios.FindAsync(id);
+        var usuario = await _context.Usuarios.FindAsync(uid);
 
         if (usuario == null)
             return NotFound();

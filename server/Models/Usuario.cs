@@ -12,7 +12,7 @@ public class Usuario
     public required string Apellido { get; set; }
     public required string Email { get; set; }
     public RolesUsuario Rol { get; set; }
-    public required DateTime FechaRegistro { get; set; } = DateTime.Now;
     public required bool Estado { get; set; } = true;
+    public required DateTime FechaRegistro { get; set; } = DateTime.Now;
 }
 

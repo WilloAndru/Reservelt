@@ -1,5 +1,5 @@
 // Datos a manejar cuando se crea un usuario
-public class UsuarioCreateDto
+public class CrearUsuarioDto
 {
     public required string FirebaseUid { get; set; }
     public required string Nombre { get; set; }

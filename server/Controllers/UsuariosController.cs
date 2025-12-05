@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,9 +14,9 @@ public class UsuariosController : ControllerBase
 
     // Endpoint para crear usuario
     [HttpPost]
-    public async Task<IActionResult> CrearUsuario([FromBody] UsuarioCreateDto dto)
+    public async Task<IActionResult> CrearUsuario([FromBody] CrearUsuarioDto dto)
     {
-        // Si el DTO viene con errores, devolvemos 400
+        // Si la solicitud viene con formato direfente al dto, devolvemos 400
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 

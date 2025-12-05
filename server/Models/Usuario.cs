@@ -1,18 +1,19 @@
-public enum RolesUsuario
+public enum RoleUser
 {
-    Cliente,
+    Client,
     Admin
 }
 
-public class Usuario
+public class User
 {
     public int Id { get; set; }
     public required string FirebaseUid { get; set; }
-    public required string Nombre { get; set; }
-    public required string Apellido { get; set; }
+    public required string Name { get; set; }
+    public required string LastName { get; set; }
     public required string Email { get; set; }
-    public RolesUsuario Rol { get; set; }
-    public required bool Estado { get; set; } = true;
-    public required DateTime FechaRegistro { get; set; } = DateTime.Now;
+    public required string PhotoUrl { get; set; }
+    public RoleUser Role { get; set; }
+    public required bool State { get; set; } = true;
+    public required DateTime registerSDate { get; set; } = DateTime.Now;
 }
 

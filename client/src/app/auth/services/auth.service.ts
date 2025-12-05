@@ -1,6 +1,4 @@
-// Permite crear servicios
 import { Injectable } from '@angular/core';
-
 // Funciones de Firebase para manejar usuarios
 import {
   Auth,
@@ -12,17 +10,27 @@ import {
   signOut,
   user,
 } from '@angular/fire/auth';
-
 // Para observar al usuario actual
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // Guardamos la conexión con Firebase Auth
-  constructor(private auth: Auth) {}
+  // Guardamos los datos del usuario en memoria para no llamar a cada rato a firebase
+  private localUser = new BehaviorSubject<any>(null);
+
+  constructor(private auth: Auth) {
+    user(this.auth).subscribe((u) => {
+      this.localUser.next(u); // Actualiza el usuario en local
+    });
+  }
+
+  // Devuelve el usuario guardado en local
+  getUserState() {
+    return this.localUser.asObservable();
+  }
 
   // Crea un usuario nuevo
   register(email: string, password: string) {

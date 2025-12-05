@@ -1,21 +1,3 @@
-3. Proteger rutas front-end como un adulto responsable
-
-Implementar un AuthGuard para rutas privadas (/reservation, /my-reservations, /profile).
-
-Crear un AdminGuard que valide el rol (puede venir de Firestore o de tu SQL Server si lo sincronizas).
-
-Redirigir usuarios no autenticados a /login.
-
-Si ya hay sesión activa, evitar que entren a /login o /register.
-
-4. Manejo elegante del estado del usuario
-
-Suscribirse al observable del usuario actual (authState) y mantenerlo en un servicio global.
-
-Implementar un mecanismo de inicialización tipo appInitializer para que Angular conozca al usuario antes de cargar las rutas.
-
-Crear un modelo sencillo de “User” con campos mínimos: uid, email, displayName, photoURL, roles (si los manejas).
-
 5. Integrar Firebase Auth con tu backend .NET Core
 Esta parte suele ser ignorada, pero un sistema profesional no confía ciegamente en lo que llega del front.
 

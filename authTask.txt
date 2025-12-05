@@ -1,0 +1,101 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDTul82bf0o_kYUqB3om0P2gHCVpcO6ZrA",
+  authDomain: "reservelt-a8524.firebaseapp.com",
+  projectId: "reservelt-a8524",
+  storageBucket: "reservelt-a8524.firebasestorage.app",
+  messagingSenderId: "855699963206",
+  appId: "1:855699963206:web:234f1bf62a3add20f57947",
+  measurementId: "G-T4ETB4J3R1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+2. Configurar el módulo de autenticación en Angular
+
+Crear un módulo auth dedicado (buen hábito para no convertir app.module.ts en un pantano).
+
+Inicializar Firebase dentro de app.module.ts con el objeto de configuración.
+
+Crear un servicio AuthService con métodos limpios para:
+register(email, pass), login(email, pass), loginWithGoogle(), logout(), getUser().
+
+3. Proteger rutas front-end como un adulto responsable
+
+Implementar un AuthGuard para rutas privadas (/reservation, /my-reservations, /profile).
+
+Crear un AdminGuard que valide el rol (puede venir de Firestore o de tu SQL Server si lo sincronizas).
+
+Redirigir usuarios no autenticados a /login.
+
+Si ya hay sesión activa, evitar que entren a /login o /register.
+
+4. Manejo elegante del estado del usuario
+
+Suscribirse al observable del usuario actual (authState) y mantenerlo en un servicio global.
+
+Implementar un mecanismo de inicialización tipo appInitializer para que Angular conozca al usuario antes de cargar las rutas.
+
+Crear un modelo sencillo de “User” con campos mínimos: uid, email, displayName, photoURL, roles (si los manejas).
+
+5. Integrar Firebase Auth con tu backend .NET Core
+Esta parte suele ser ignorada, pero un sistema profesional no confía ciegamente en lo que llega del front.
+
+Configurar en tu API un middleware que valide el ID Token de Firebase en cada solicitud autenticada.
+
+Usar el SDK Admin de Firebase en .NET Core, o bien validar el token manualmente con la clave pública de Google.
+
+Implementar un atributo [Authorize] para tus controladores privados.
+
+Opcional pero elegante: crear un endpoint /api/auth/validate que tu cliente pueda consultar si necesita sincronización.
+
+6. Sincronizar usuarios con tu base de datos SQL Server (opcional pero sensato)
+
+Crear tabla Users con el UID de Firebase como clave primaria lógica.
+
+En el primer login, tu API detecta si ese UID existe. Si no, crea el registro.
+
+Guardar datos adicionales (roles, preferencias, historial).
+
+Mantener la responsabilidad de identidad en Firebase y la responsabilidad de negocio en SQL Server.
+
+7. UI y UX decente en las pantallas del sistema
+
+/login: formulario limpio, mensajes de error concretos (sin ensaladas de texto).
+
+/register: confirmación de contraseña y validaciones en tiempo real.
+
+Manejo claro de loading states para evitar clics dobles y frustración humana.
+
+Mostrar avatar y nombre del usuario en el header cuando esté autenticado.
+
+8. Seguridad y buenas prácticas, el toque profesional
+
+Evitar exponer llaves sensibles en el front; usar variables de entorno para prod.
+
+Desactivar proveedores que no uses.
+
+Forzar HTTPS en entorno productivo.
+
+Revocar sesiones desde Firebase si detectas actividad sospechosa.
+
+Implementar logging centralizado para el backend cuando haya errores de verificación de token.
+
+9. Pruebas que eviten sorpresas
+
+Testear que rutas privadas realmente rechacen usuarios sin token.
+
+Testear que el backend rechace tokens expirados o manipulados.
+
+Verificar que el refresco de sesión en Firebase se comporte bien en tu app (auto-login en refresh).
+
+Probar creación de nuevas cuentas y flujos de recuperación de contraseña.

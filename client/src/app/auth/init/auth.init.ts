@@ -1,13 +1,14 @@
-// Permite usar el AuthService antes de que arranque la app
+import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-export function authInitializer(authService: AuthService) {
-  return () =>
-    new Promise<void>((resolve) => {
-      // Esperamos a que Firebase informe el usuario
-      const sub = authService.getUser().subscribe(() => {
-        sub.unsubscribe(); // Ya no necesitamos escuchar más aquí
-        resolve(); // Terminamos y seguimos con la app
-      });
+export function authInitializer(): Promise<void> {
+  const authService = inject(AuthService);
+
+  return new Promise<void>((resolve) => {
+    // Usamos el metodo getUser para obetner los datos del usuario una unica vez
+    const sub = authService.getUser().subscribe(() => {
+      sub.unsubscribe(); // Deja de escuchar cambios
+      resolve(); // Termina la inicialización
     });
+  });
 }

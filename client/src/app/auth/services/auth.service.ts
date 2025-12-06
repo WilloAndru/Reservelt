@@ -13,22 +13,35 @@ import {
 // Para observar al usuario actual
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UserModel } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   // Guardamos los datos del usuario en memoria para no llamar a cada rato a firebase
-  private localUser = new BehaviorSubject<any>(null);
-
+  private localUser = new BehaviorSubject<UserModel | null>(null);
   constructor(private auth: Auth) {
     user(this.auth).subscribe((u) => {
-      this.localUser.next(u); // Actualiza el usuario en local
+      if (u) {
+        // Aquí mapeamos los datos del token a nuestro user local
+        const mappedUser: UserModel = {
+          id: 0,
+          uid: u.uid,
+          name: u.displayName || '',
+          email: u.email || '',
+          photoUrl: u.photoURL || '',
+          role: 'client',
+        };
+        this.localUser.next(mappedUser);
+      } else {
+        this.localUser.next(null);
+      }
     });
   }
 
   // Devuelve el usuario guardado en local
-  getUserState() {
+  getLocalUser() {
     return this.localUser.asObservable();
   }
 
